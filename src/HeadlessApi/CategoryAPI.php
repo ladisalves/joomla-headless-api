@@ -1,4 +1,6 @@
 <?php
+namespace Cr8\JoomlaHeadlessApi\HeadlessApi;
+
 require_once 'database.php';
 require_once '../configuration.php';
 use OpenApi\Annotations as OA;

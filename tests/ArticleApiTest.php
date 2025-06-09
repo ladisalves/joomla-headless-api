@@ -1,5 +1,6 @@
 <?php
 use PHPUnit\Framework\TestCase;
+use Cr8\JoomlaHeadlessApi\HeadlessApi\ArticleAPI;
 
 class ArticleApiTest extends TestCase
 {
