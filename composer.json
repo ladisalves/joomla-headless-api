@@ -1,0 +1,19 @@
+{
+    "name": "cr8/joomla-headless-api",
+    "description": "Headless REST API for Joomla CMS",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Cr8\\JoomlaHeadlessApi\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "ladislaves"
+        }
+    ],
+    "require": {
+        "zircote/swagger-php": "^5.0",
+        "league/html-to-markdown": "^5.1"
+    }
+}
