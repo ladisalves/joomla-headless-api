@@ -1,38 +1,28 @@
 # Joomla Headless API
 
-- v1, v2, mdx
-- "-c", "vendor/bin/openapi --output /app/openapi.yaml /app/src && tail -f /dev/null"
-- # Run Composer to install dependencies
-RUN composer install
+This repository contains an experimental headless API for Joomla CMS. The API
+specification is generated using Swagger-PHP and served by a simple Apache
+container.
 
-# Install Swagger-PHP
-RUN composer require zircote/swagger-php league/html-to-markdown
+## Serving `openapi.yaml`
 
+The root `Dockerfile` builds an Apache image that exposes the generated
+`openapi.yaml` via HTTP. Build and run the container from the repository root:
 
-Would you like the vendor directory added to your .gitignore [yes]?
-PSR-4 autoloading configured. Use "namespace Cr8\JoomlaHeadlessApi;" in src/
-Include the Composer autoloader with: require 'vendor/autoload.php';
-
-
-
-### Update the swagger file
 ```bash
-podman build --security-opt seccomp=unconfined -t php-swagger .
-podman run --security-opt seccomp=unconfined -v $(pwd):/app -ti php-swagger bash -c "composer install && ./vendor/bin/openapi --output /app/openapi.yaml /app/src/headless-api/"
+docker build -t joomla-headless-api .
+docker run --rm -v $(pwd):/var/www/html -p 8080:80 joomla-headless-api
 ```
 
-./vendor/bin/openapi --output openapi.yaml ./src
+Once running, the specification is available at
+`http://localhost:8080/openapi.yaml`.
 
+## Generating the specification
 
+Use the generator image located in [`tools/`](tools/README.md) to produce the
+`openapi.yaml` file before starting the webserver.
 
-docker-compose build
-docker-compose up
-docker-compose up -d
-
-podman build --security-opt seccomp=unconfined -t apache-php .
-podman run --security-opt seccomp=unconfined -v $(pwd):/var/www/html -p 8080:80 apache-php
-
-### Running tests
+## Running tests
 
 Install the Composer dependencies and execute PHPUnit:
 

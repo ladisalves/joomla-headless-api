@@ -1,25 +1,25 @@
 # Joomla Headless API Tools
 
-I don't have PHP installed on my local machine, so I'm using a container to manage Composer and generate the Swagger file.
+This directory provides a Docker image used to generate the `openapi.yaml`
+file without installing PHP locally.
 
-## Docker
+## Build the generator image
 
-### Build the container
+Run from within `tools/`:
+
 ```bash
 podman build --security-opt seccomp=unconfined -t php-swagger .
 ```
 
-### Run the container
+## Generate `openapi.yaml`
+
+From the repository root execute:
+
 ```bash
-podman run --security-opt seccomp=unconfined -v $(pwd):/app -ti php-swagger bash
+podman run --rm --security-opt seccomp=unconfined \
+    -v $(pwd):/app php-swagger \
+    bash -c "composer install && ./vendor/bin/openapi --output /app/openapi.yaml /app/src/headless-api/"
 ```
 
-### Composer install
-```bash
-podman run --security-opt seccomp=unconfined -v $(pwd):/app php-swagger composer install
-```
-
-### Update the swagger file
-```bash
-podman run --security-opt seccomp=unconfined -v $(pwd):/app -ti php-swagger bash -c ./vendor/bin/openapi --output openapi.yaml ./src/headless-api/
-```
+The generated file will appear in the project root and can be served using the
+webserver container described in the main README.
