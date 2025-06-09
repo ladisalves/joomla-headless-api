@@ -1,5 +1,5 @@
 <?php
-require_once 'Database.php';
+require_once 'database.php';
 
 /**
  * @OA\Info(title="Joomla Headless API", version="1.0.0")
