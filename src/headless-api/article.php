@@ -90,7 +90,7 @@ class ArticleAPI {
      * )
      */
     public function getArticlesBySlug($slug) {
-        $id = $this->db->escape_string($slug);
+        $slug = $this->db->escape_string($slug);
         $result = $this->db->query("SELECT * FROM " . $this->config->dbprefix . "content WHERE alias = '$slug'");
         $articles = [];
 
