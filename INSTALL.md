@@ -18,7 +18,7 @@ cd headless-api
 composer install --no-dev --optimize-autoloader
 ```
 
-Copy `src/` (or the generated `vendor/` and API files) to a directory that is **outside** the Joomla core so upgrades do not overwrite it. Update `src/configuration.php` or `src/headless-api/database.php` to reference your site's database credentials or existing `configuration.php`.
+Copy `src/` (or the generated `vendor/` and API files) to a directory that is **outside** the Joomla core so upgrades do not overwrite it. Update `src/configuration.php` or `src/HeadlessApi/database.php` to reference your site's database credentials or existing `configuration.php`.
 
 ## 2. Podman / Docker
 

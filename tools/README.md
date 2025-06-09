@@ -18,7 +18,7 @@ From the repository root execute:
 ```bash
 podman run --rm --security-opt seccomp=unconfined \
     -v $(pwd):/app php-swagger \
-    bash -c "composer install && ./vendor/bin/openapi --output /app/openapi.yaml /app/src/headless-api/"
+    bash -c "composer install && ./vendor/bin/openapi --output /app/openapi.yaml /app/src/HeadlessApi/"
 ```
 
 The generated file will appear in the project root and can be served using the
