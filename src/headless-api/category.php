@@ -27,11 +27,11 @@ class CategoryAPI {
 
     /**
      * @OA\Get(
-     *     path="/categories/{id}",
-     *     summary="Get category by ID",
+     *     path="/categories",
+     *     summary="Get all categories",
      *     @OA\Response(
      *         response=200,
-     *         description="List of categorie",
+     *         description="List of categories",
      *         @OA\JsonContent(ref="#/components/schemas/Category")
      *     )
      * )
