@@ -1,5 +1,6 @@
 <?php
 require_once 'database.php';
+use OpenApi\Annotations as OA;
 
 /**
  * @OA\Info(title="Joomla Headless API", version="1.0.0")
