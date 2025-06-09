@@ -12,7 +12,13 @@ RUN apt-get update && apt-get install -y \
     unzip \
     git \
     curl \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd mysqli
+    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd mysqli && \
+    curl -sS https://getcomposer.org/installer -o /tmp/composer-setup.php && \
+    HASH="$(curl -sS https://composer.github.io/installer.sig)" && \
+    php -r "if (hash_file('SHA384', '/tmp/composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" && \
+    php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer && \
+    rm -f /tmp/composer-setup.php && \
+    chmod +x /usr/local/bin/composer
 
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
