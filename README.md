@@ -33,3 +33,12 @@ docker-compose up -d
 
 podman build --security-opt seccomp=unconfined -t apache-php .
 podman run --security-opt seccomp=unconfined -v $(pwd):/var/www/html -p 8080:80 apache-php
+
+### Running tests
+
+Install the Composer dependencies and execute PHPUnit:
+
+```bash
+composer install
+vendor/bin/phpunit
+```
