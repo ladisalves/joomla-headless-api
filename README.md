@@ -18,9 +18,7 @@ Include the Composer autoloader with: require 'vendor/autoload.php';
 ### Update the swagger file
 ```bash
 podman build --security-opt seccomp=unconfined -t php-swagger .
-podman run --security-opt seccomp=unconfined -v $(pwd):/app php-swagger
-
-podman run --security-opt seccomp=unconfined -v $(pwd):/app -ti php-swagger "vendor/bin/openapi --output /app/openapi.yaml /app/src"
+podman run --security-opt seccomp=unconfined -v $(pwd):/app -ti php-swagger bash -c "composer install && ./vendor/bin/openapi --output /app/openapi.yaml /app/src/headless-api/"
 ```
 
 ./vendor/bin/openapi --output openapi.yaml ./src
