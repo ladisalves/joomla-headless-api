@@ -8,7 +8,7 @@ file without installing PHP locally.
 Run from within `tools/`:
 
 ```bash
-podman build --security-opt seccomp=unconfined -t php-swagger .
+podman build -f Dockerfile.generate --security-opt seccomp=unconfined -t php-swagger .
 ```
 
 ## Generate `openapi.yaml`
@@ -22,4 +22,4 @@ podman run --rm --security-opt seccomp=unconfined \
 ```
 
 The generated file will appear in the project root and can be served using the
-webserver container described in the main README.
+webserver container (`Dockerfile.webserver`) described in the main README.

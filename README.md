@@ -6,11 +6,12 @@ container.
 
 ## Serving `openapi.yaml`
 
-The root `Dockerfile` builds an Apache image that exposes the generated
-`openapi.yaml` via HTTP. Build and run the container from the repository root:
+The `tools/Dockerfile.webserver` builds an Apache image that exposes the
+generated `openapi.yaml` via HTTP. Build and run the container from the
+repository root:
 
 ```bash
-docker build -t joomla-headless-api .
+docker build -f tools/Dockerfile.webserver -t joomla-headless-api .
 docker run --rm -v $(pwd):/var/www/html -p 8080:80 joomla-headless-api
 ```
 
@@ -19,7 +20,7 @@ Once running, the specification is available at
 
 ## Generating the specification
 
-Use the generator image located in [`tools/`](tools/README.md) to produce the
+Use the generator image defined by `tools/Dockerfile.generate` to produce the
 `openapi.yaml` file before starting the webserver.
 
 ## Running tests
