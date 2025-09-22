@@ -23,7 +23,10 @@ if (isset($_GET['category'])) {
     $payload = $api->getArticlesBySlug($_GET['slug']);
 } else {
     http_response_code(400);
-    echo json_encode(['error' => 'Missing query parameter. Provide category, id or slug.']);
+    echo json_encode([
+        'error' => 'Missing query parameter.',
+        'details' => 'Provide category, id or slug.'
+    ]);
     exit;
 }
 
