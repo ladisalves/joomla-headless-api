@@ -1,7 +1,7 @@
 <?php
 namespace Cr8\JoomlaHeadlessApi\HeadlessApi;
 
-require_once 'database.php';
+require_once __DIR__ . '/database.php';
 use OpenApi\Annotations as OA;
 
 /**
@@ -102,18 +102,6 @@ class ArticleAPI {
         }
 
         return $articles;
-    }
-}
-
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $api = new ArticleAPI();
-
-    if (isset($_GET['category'])) {
-        echo json_encode($api->getArticlesByCategory($_GET['category']));
-    } elseif (isset($_GET['id'])) {
-        echo json_encode($api->getArticlesById($_GET['id']));
-    } elseif (isset($_GET['slug'])) {
-        echo json_encode($api->getArticlesBySlug($_GET['slug']));
     }
 }
 

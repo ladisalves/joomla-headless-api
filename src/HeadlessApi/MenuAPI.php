@@ -1,7 +1,7 @@
 <?php
 namespace Cr8\JoomlaHeadlessApi\HeadlessApi;
 
-require_once 'database.php';
+require_once __DIR__ . '/database.php';
 use OpenApi\Annotations as OA;
 
 /**
@@ -38,11 +38,6 @@ class MenuAPI {
 
         return $menuItems;
     }
-}
-
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['menutype'])) {
-    $api = new MenuAPI();
-    echo json_encode($api->getMenuItems($_GET['menutype']));
 }
 
 /**
