@@ -1,8 +1,8 @@
 <?php
 namespace Cr8\JoomlaHeadlessApi\HeadlessApi;
 
-require_once 'database.php';
-require_once '../configuration.php';
+require_once __DIR__ . '/database.php';
+require_once __DIR__ . '/../configuration.php';
 use OpenApi\Annotations as OA;
 
 /**
@@ -47,16 +47,6 @@ class CategoryAPI {
         }
 
         return $categories;
-    }
-}
-
-if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $api = new CategoryAPI();
-    $json = json_encode($api->getCategories(), JSON_FORCE_OBJECT | JSON_PRETTY_PRINT);
-    if ($json === false) {
-        echo 'JSON encoding error: ' . json_last_error_msg();
-    } else {
-        echo $json;
     }
 }
 
