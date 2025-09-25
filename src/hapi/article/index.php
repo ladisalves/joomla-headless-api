@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use Cr8\JoomlaHeadlessApi\HeadlessApi\ArticleAPI;
 
-require_once __DIR__ . '/../../HeadlessApi/ArticleAPI.php';
+require_once __DIR__ . '/../HeadlessApi/ArticleAPI.php';
 
 header('Content-Type: application/json');
 

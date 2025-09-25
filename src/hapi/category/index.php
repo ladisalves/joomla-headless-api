@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use Cr8\JoomlaHeadlessApi\HeadlessApi\CategoryAPI;
 
-require_once __DIR__ . '/../../HeadlessApi/CategoryAPI.php';
+require_once __DIR__ . '/../HeadlessApi/CategoryAPI.php';
 
 header('Content-Type: application/json');
 
