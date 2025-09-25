@@ -11,23 +11,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.4'
-          tools: composer
-      - name: Install dependencies
-        run: composer install --no-dev --optimize-autoloader
-      - name: Create archive
-        run: zip -r joomla-headless-api.zip src vendor openapi.yaml
+
+      - name: Prepare hapi artifact
+        run: |
+          mkdir -p dist
+          cp -R src/hapi dist/
+          rm -f dist/hapi/configuration.php
+          cd dist
+          zip -r ../hapi.zip hapi
+
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: joomla-headless-api
-          path: joomla-headless-api.zip
+          name: hapi
+          path: hapi.zip
+
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          files: joomla-headless-api.zip
+          files: hapi.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
