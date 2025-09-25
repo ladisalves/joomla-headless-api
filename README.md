@@ -23,6 +23,14 @@ Once running, the specification is available at
 Use the generator image defined by `tools/Dockerfile.generate` to produce the
 `openapi.yaml` file before starting the webserver.
 
+## Manual usage inside Joomla
+
+All runtime PHP code now lives under `src/hapi`. Copy this directory into your
+Joomla project (for example next to `configuration.php`) and expose the desired
+endpoints via your web server or a Joomla menu item. Update the copied
+`configuration.php` file to point at your site's database, or delete it to fall
+back to Joomla's global `JConfig` definition.
+
 ## Running tests
 
 Install the Composer dependencies and execute PHPUnit:

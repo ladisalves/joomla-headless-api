@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use Cr8\JoomlaHeadlessApi\HeadlessApi\MenuAPI;
 
-require_once __DIR__ . '/../../HeadlessApi/MenuAPI.php';
+require_once __DIR__ . '/../HeadlessApi/MenuAPI.php';
 
 header('Content-Type: application/json');
 
