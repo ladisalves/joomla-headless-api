@@ -1,0 +1,52 @@
+# Joomla 3.x headless-only security policy
+# Optimised for Apache 2.4+ environments that typically run Joomla 3.x.
+# Blocks the legacy front-end completely and exposes only the REST-like
+# endpoints delivered by the headless API package.
+
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Permit CORS preflight checks against the published API endpoints.
+    RewriteCond %{REQUEST_METHOD} =OPTIONS
+    RewriteCond %{REQUEST_URI} ^/hapi/(article|category|menu)(?:/|$)
+    RewriteRule ^ - [L]
+
+    # Allow runtime access to the public API endpoints.
+    RewriteCond %{REQUEST_URI} ^/hapi/(article|category|menu)(?:/|$)
+    RewriteRule ^ - [L]
+
+    # Block direct access to internal implementation details.
+    RewriteRule ^hapi/HeadlessApi/ - [F]
+
+    # Deny every other request.
+    RewriteRule ^ - [F]
+</IfModule>
+
+# Harden PHP entry points and environment files.
+<FilesMatch "^(configuration|index)\.php$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+<FilesMatch "^\.">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+# Optionally advertise JSON-only behaviour to clients (safe to omit if module missing).
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "DENY"
+</IfModule>

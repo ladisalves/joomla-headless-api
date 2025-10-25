@@ -1,0 +1,41 @@
+# Joomla 2.x headless-only security policy
+# Designed for Apache 2.2 deployments that host Joomla 2.5 but should
+# also work on Apache 2.4. The policy blocks access to Joomla's legacy
+# web surface and exposes only the headless API endpoints.
+
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Never allow direct access to the internal API PHP classes.
+    RewriteRule ^hapi/HeadlessApi/ - [F]
+
+    # Allow the supported API endpoints and their assets to pass through untouched.
+    RewriteCond %{REQUEST_URI} ^/hapi/(article|category|menu)(?:/|$)
+    RewriteRule ^ - [L]
+
+    # Deny everything else that is part of the Joomla application.
+    RewriteRule ^ - [F]
+</IfModule>
+
+# Block configuration, entry-point, and environment files.
+<FilesMatch "^(configuration|index)\.php$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+<FilesMatch "^\.">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
