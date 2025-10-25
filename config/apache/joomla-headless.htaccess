@@ -1,0 +1,52 @@
+# Joomla 1.x/2.x/3.x headless-only security policy
+# This single template targets Apache 2.2 and 2.4+ and removes exposure of the
+# traditional Joomla frontend. Only the Headless API endpoints remain
+# reachable. Apply it to the root of the Joomla installation.
+
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Permit CORS preflight checks to hit the API endpoints.
+    RewriteCond %{REQUEST_METHOD} =OPTIONS
+    RewriteCond %{REQUEST_URI} ^/hapi/(article|category|menu)(?:/|$)
+    RewriteRule ^ - [L]
+
+    # Allow runtime access to the published API endpoints.
+    RewriteCond %{REQUEST_URI} ^/hapi/(article|category|menu)(?:/|$)
+    RewriteRule ^ - [L]
+
+    # Deny access to the Headless API internals if they reside under web root.
+    RewriteRule ^hapi/HeadlessApi/ - [F]
+
+    # Block everything else within the Joomla tree.
+    RewriteRule ^ - [F]
+</IfModule>
+
+# Protect configuration, bootstrap, and hidden files across Apache versions.
+<FilesMatch "^(configuration|index)\\.php$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+<FilesMatch "^\.">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
+
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "DENY"
+</IfModule>
