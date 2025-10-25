@@ -1,7 +1,7 @@
-# Joomla 3.x headless-only security policy
-# Optimised for Apache 2.4+ environments that typically run Joomla 3.x.
-# Blocks the legacy front-end completely and exposes only the REST-like
-# endpoints delivered by the headless API package.
+# Joomla 1.x/2.x/3.x headless-only security policy
+# This single template targets Apache 2.2 and 2.4+ and removes exposure of the
+# traditional Joomla frontend. Only the Headless API endpoints remain
+# reachable. Apply it to the root of the Joomla installation.
 
 Options -Indexes
 
@@ -9,24 +9,24 @@ Options -Indexes
     RewriteEngine On
     RewriteBase /
 
-    # Permit CORS preflight checks against the published API endpoints.
+    # Permit CORS preflight checks to hit the API endpoints.
     RewriteCond %{REQUEST_METHOD} =OPTIONS
     RewriteCond %{REQUEST_URI} ^/hapi/(article|category|menu)(?:/|$)
     RewriteRule ^ - [L]
 
-    # Allow runtime access to the public API endpoints.
+    # Allow runtime access to the published API endpoints.
     RewriteCond %{REQUEST_URI} ^/hapi/(article|category|menu)(?:/|$)
     RewriteRule ^ - [L]
 
-    # Block direct access to internal implementation details.
+    # Deny access to the Headless API internals if they reside under web root.
     RewriteRule ^hapi/HeadlessApi/ - [F]
 
-    # Deny every other request.
+    # Block everything else within the Joomla tree.
     RewriteRule ^ - [F]
 </IfModule>
 
-# Harden PHP entry points and environment files.
-<FilesMatch "^(configuration|index)\.php$">
+# Protect configuration, bootstrap, and hidden files across Apache versions.
+<FilesMatch "^(configuration|index)\\.php$">
     <IfModule mod_authz_core.c>
         Require all denied
     </IfModule>
@@ -35,6 +35,7 @@ Options -Indexes
         Deny from all
     </IfModule>
 </FilesMatch>
+
 <FilesMatch "^\.">
     <IfModule mod_authz_core.c>
         Require all denied
@@ -45,7 +46,6 @@ Options -Indexes
     </IfModule>
 </FilesMatch>
 
-# Optionally advertise JSON-only behaviour to clients (safe to omit if module missing).
 <IfModule mod_headers.c>
     Header always set X-Content-Type-Options "nosniff"
     Header always set X-Frame-Options "DENY"
